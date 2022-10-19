@@ -1,0 +1,137 @@
+<div class="l-i__wrap" style="display: grid;margin: 0 auto;row-gap: 70px;">
+{% for item in module.field_group %}
+  <div class="container-four" style="position: relative !important; margin: 0 auto !important; justify-content: center;">
+	{% set href = item.link_field.url.href %}
+	{% if item.link_field.url.type is equalto "EMAIL_ADDRESS" %}
+		{% set href = "mailto:" + href %}
+	{% endif %}
+	<a class="link__hover" href="{{ href }}"
+		{% if item.link_field.open_in_new_tab %}target="_blank"{% endif %}
+		{% if item.link_field.rel %}rel="{{ item.link_field.rel }}"{% endif %}
+		>  
+	{% if item.image_field.src %}
+		{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+		{% if item.image_field.size_type == 'auto' %}
+			{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}" style="max-width: 100%; height: auto;"' %}
+		{% elif item.image_field.size_type == 'auto_custom_max' %}
+			{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+		{% endif %}
+		 {% set loadingAttr = item.image_field.loading != 'disabled' ? 'loading="{{ item.image_field.loading }}"' : '' %}
+		<img src="{{ item.image_field.src }}" alt="{{ item.image_field.alt }}" {{ loadingAttr }} {{ sizeAttrs }}>
+	{% endif %}
+    <div class="card-text-four" style=" position: absolute !important;bottom: 0px !important;left: 45px;">
+	    {% inline_rich_text field="front_of_card" value="{{ item.front_of_card }}" %}
+    </div>
+    <div class="backside-four link__hover" style=" position: absolute !important;bottom: 0px !important;padding: 5% !important;">
+	    {% inline_rich_text field="back_of_card" value="{{ item.back_of_card }}" %}    
+    </div>
+   </a>
+ </div>
+{% endfor %}
+</div>
+
+
+
+<style>
+  
+  .l-i__wrap {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+    width: 70vw;
+  }
+  
+  @media(max-width: 1799px) {
+    .l-i__wrap {
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 0px;
+      width: 50vw;
+    }
+  }
+  
+  
+  .container-four {
+    opacity: .9;
+    width: 350px;
+    transition: background-color 1s ease-out;
+    display: flex;
+  }
+  
+  .container-four:hover img{
+/*     transition: .5s ease !important; */
+/*     transform: scale(1.02); */
+/*     opacity: 0; */
+  }
+
+  
+  .container-four,
+  .card-text-four {
+    position: relative;
+    text-shadow: #000 5px 0 10px;
+    display: block !important:
+  }
+  
+  .container-four:hover .card-text-four {
+    display: none !important;
+    position: relative;
+  }
+  
+  .container-four
+  .backside-four {
+    opacity: 0;
+  }
+  
+  .container-four:hover
+  .backside-four {
+    opacity: 1;
+    transition: .25s ease !important;
+    background-color: #1F355E !important;
+    height: 100%;
+    width: 80%;
+    border-radius: 5px;
+    margin: 0 auto !important;
+    transform: scale(1.05);
+  }
+
+  .container-four img {
+    border-radius: 5px;
+  }
+   @media(max-width: 767px) {
+    .card-text-four {
+      left: 10vw !important;
+      max-width: 100% !important;
+    }
+  }
+
+  @media (max-width: 1369px){
+    .l-i__wrap {
+      grid-gap: 0px;
+      width: 60vw;
+    }
+  }
+
+  @media (max-width: 1107px) {
+    .l-i__wrap {
+      width: 75vw;
+    }
+  }
+  
+   @media (max-width: 891px){
+    .l-i__wrap {
+      width: 95vw;
+    }
+  }
+  
+  
+  @media (max-width: 673px){
+    .container-four {
+      display: flex !important;
+    }
+    .l-i__wrap {
+    width: 90vw;
+    grid-template-columns: 1fr;      
+  }
+  }  
+  .link__hover p {
+    color: #fff !important;
+  }
+</style>
